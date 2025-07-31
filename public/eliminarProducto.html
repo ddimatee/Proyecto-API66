@@ -1,9 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Lista de Productos</title>
+    <meta charset="UTF-8" />
+    <title>Eliminar Productos</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -33,15 +32,24 @@
         }
 
         th {
-            background-color: #007bff;
+            background-color: #dc3545;
             color: white;
             position: sticky;
             top: 0;
             z-index: 1;
         }
 
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
+        button.eliminar-btn {
+            padding: 6px 12px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button.eliminar-btn:hover {
+            background-color: #58373a;
         }
 
         .volver {
@@ -63,7 +71,7 @@
 </head>
 <body>
 
-    <h1>Listado de Productos</h1>
+    <h1>Eliminar Productos</h1>
     <div class="tabla-contenedor">
         <table id="productosTabla">
             <thead>
@@ -72,6 +80,7 @@
                     <th>Nombre</th>
                     <th>Precio</th>
                     <th>Descripción</th>
+                    <th>Acción</th>
                 </tr>
             </thead>
             <tbody>
@@ -79,34 +88,7 @@
         </table>
     </div>
 
-    <a href="menu.html" class="volver">Volver al menú</a>
-
-    <script>
-        async function cargarProductos() {
-            try {
-                const res = await fetch('http://localhost:3000/api/productos');
-                const productos = await res.json();
-                const tbody = document.querySelector("#productosTabla tbody");
-                tbody.innerHTML = "";
-
-                productos.forEach(prod => {
-                    const fila = `
-                        <tr>
-                            <td>${prod.id}</td>
-                            <td>${prod.nombre}</td>
-                            <td>$${parseFloat(prod.precio).toFixed(2)}</td>
-                            <td>${prod.descripcion}</td>
-                        </tr>
-                    `;
-                    tbody.innerHTML += fila;
-                });
-            } catch (error) {
-                alert("Error al cargar productos: " + error.message);
-            }
-        }
-
-        cargarProductos();
-    </script>
-
+    <a href="../menu.html" class="volver">Volver al menú</a>
+    <script src="../controllers/eliminarProducto.js"></script>
 </body>
 </html>
