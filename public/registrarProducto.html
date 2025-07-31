@@ -4,45 +4,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Registrar Producto</title>
-    <style>
-         .volver {
-            display: block;
-            width: 200px;
-            margin: 30px auto 0;
-            padding: 10px 20px;
-            background-color: #28a745;
-            color: white;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 6px;
-            margin-left: -1px;
-        }
-
-        .volver:hover {
-            background-color: #218838;
-        }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
-<body>
-    <h2>Registrar nuevo producto</h2>
-    <form id="productoForm">
-        <label for="nombre">Nombre del producto:</label><br>
-        <input type="text" id="nombre" name="nombre" required><br><br>
+<body class="bg-light">
+    <div class="container mt-5">
+        <h3 class="mb-4 text-center">Registrar nuevo producto</h3>
 
-        <label for="precio">Precio:</label><br>
-        <input type="number" step="0.01" id="precio" name="precio" required><br><br>
+        <form id="productoForm" class="border p-4 rounded bg-white">
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre del producto</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" required>
+            </div>
 
-        <label for="descripcion">Descripción:</label><br>
-        <textarea id="descripcion" name="descripcion" required></textarea><br><br>
+            <div class="mb-3">
+                <label for="precio" class="form-label">Precio</label>
+                <input type="number" step="0.01" class="form-control" id="precio" name="precio" required>
+            </div>
 
-        <button type="button" onclick="registrarProducto()">Registrar</button>
-    </form>
-        <a href="../menu.html" class="volver">Volver al menú</a>
+            <div class="mb-3">
+                <label for="descripcion" class="form-label">Descripción</label>
+                <textarea class="form-control" id="descripcion" name="descripcion" required></textarea>
+            </div>
 
-    <script src="../controllers/registrarProducto.js">
+            <button type="button" class="btn btn-primary" onclick="registrarProducto()">Registrar</button>
+            <a href="../menu.html" class="btn btn-outline-secondary ms-2">Volver al menú</a>
+        </form>
+    </div>
 
-    </script>
+    <script src="../controllers/registrarProducto.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
