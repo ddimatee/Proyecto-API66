@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Eliminar Productos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .tabla-contenedor {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #dc3545;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        button.eliminar-btn {
+            padding: 6px 12px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button.eliminar-btn:hover {
+            background-color: #58373a;
+        }
+
+        .volver {
+            display: block;
+            width: 200px;
+            margin: 30px auto 0;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .volver:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Eliminar Productos</h1>
+    <div class="tabla-contenedor">
+        <table id="productosTabla">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Precio</th>
+                    <th>Descripción</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <a href="menu.html" class="volver">Volver al menú</a>
+
+    <script>
+        async function cargarProductos() {
+            try {
+                const res = await fetch('http://localhost:3000/api/productos');
+                if (!res.ok) throw new Error('Error en la respuesta del servidor');
+                const productos = await res.json();
+                const tbody = document.querySelector("#productosTabla tbody");
+                tbody.innerHTML = "";
+
+                productos.forEach(prod => {
+                    const fila = document.createElement('tr');
+
+                    fila.innerHTML = `
+                        <td>${prod.id}</td>
+                        <td>${prod.nombre}</td>
+                        <td>$${parseFloat(prod.precio).toFixed(2)}</td>
+                        <td>${prod.descripcion}</td>
+                        <td><button class="eliminar-btn" data-id="${prod.id}">Eliminar</button></td>
+                    `;
+
+                    tbody.appendChild(fila);
+                });
+
+               
+                document.querySelectorAll('.eliminar-btn').forEach(btn => {
+                    btn.addEventListener('click', async (e) => {
+                        const id = e.target.getAttribute('data-id');
+                        if (confirm(`¿Seguro que quieres eliminar el producto con ID ${id}?`)) {
+                            try {
+                                const resDelete = await fetch(`http://localhost:3000/api/productos/${id}`, {
+                                    method: 'DELETE',
+                                });
+                                if (!resDelete.ok) throw new Error('No se pudo eliminar el producto');
+                                alert(`Producto ID ${id} eliminado.`);
+                                cargarProductos();
+                            } catch (err) {
+                                alert('Error al eliminar: ' + err.message);
+                            }
+                        }
+                    });
+                });
+
+            } catch (error) {
+                alert("Error al cargar productos: " + error.message);
+            }
+        }
+
+        cargarProductos();
+    </script>
+
+</body>
+</html>
